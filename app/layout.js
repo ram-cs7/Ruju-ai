@@ -25,9 +25,6 @@ export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
   title: "Ruju.ai | Multi-Agent Verification Pipeline",
   description: "The B2B Anti-Hallucination Engine. Find Proof. Verify Facts. Build Trust.",
-  icons: {
-    icon: '/logo.png',
-  },
   openGraph: {
     title: 'Ruju.ai',
     description: 'The Anti-Hallucination Engine. Verify AI claims directly against your source documents.',
