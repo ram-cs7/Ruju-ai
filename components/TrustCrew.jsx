@@ -195,6 +195,7 @@ export default function TrustCrew() {
   const [showNotes, setShowNotes] = useState(false);
 
   const [activeEvidence, setActiveEvidence] = useState('');
+  const [isSourceVisible, setIsSourceVisible] = useState(false);
 
   const onSaveHistory = useCallback((entryData) => {
     const tempId = Date.now();
@@ -468,8 +469,8 @@ export default function TrustCrew() {
             <div className={`w-full mx-auto px-4 py-4 sm:py-6 flex flex-col lg:flex-row gap-6 relative flex-1 ${documents.length === 0 ? 'max-w-4xl justify-center' : 'max-w-[1600px]'}`}>
 
               {/* Left Pane - Document Viewer */}
-              {documents.length > 0 && (
-                <div className="w-full lg:w-1/2 flex flex-col h-[600px] lg:h-[calc(100vh-4rem)] border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden bg-white dark:bg-slate-900 shadow-sm sticky top-6 z-20">
+              {documents.length > 0 && isSourceVisible && (
+                <div className="w-full lg:w-1/2 flex flex-col h-[600px] lg:h-[calc(100vh-4rem)] border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden bg-white dark:bg-slate-900 shadow-sm sticky top-6 z-20 print:hidden">
                   <DocumentViewer
                     activeDocument={
                       // Find document containing the active evidence, or just the first document
@@ -483,7 +484,7 @@ export default function TrustCrew() {
               )}
 
               {/* Right Pane Area */}
-              <div className={`flex-1 transition-all duration-300 ${documents.length > 0 ? 'lg:w-1/2' : 'w-full'} ${isHistoryOpen ? 'lg:pr-6' : ''}`}>
+              <div className={`flex-1 transition-all duration-300 ${documents.length > 0 && isSourceVisible ? 'lg:w-1/2' : 'w-full max-w-4xl mx-auto'} ${isHistoryOpen ? 'lg:pr-6' : ''}`}>
                 <header className="mb-8 pb-6 border-b-2 border-slate-900 dark:border-slate-700 print:hidden">
                   <div className="flex justify-between items-start">
                     <div>
@@ -497,6 +498,14 @@ export default function TrustCrew() {
                       <button onClick={toggleDarkMode} className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
                         {isDarkMode ? <Sun size={16} /> : <Moon size={16} />}
                       </button>
+                      {documents.length > 0 && (
+                        <button 
+                          onClick={() => setIsSourceVisible(!isSourceVisible)} 
+                          className={`hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full border transition-all text-[11px] font-mono shadow-sm ${isSourceVisible ? 'bg-blue-100 border-blue-200 text-blue-700 dark:bg-blue-900/50 dark:border-blue-800 dark:text-blue-400' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800'}`}
+                        >
+                          <BookOpen size={14} /> {isSourceVisible ? 'Hide Source' : 'View Source'}
+                        </button>
+                      )}
                       <button onClick={() => setIsHistoryOpen(!isHistoryOpen)} className={`p-2 rounded-full transition-colors hidden lg:block ${isHistoryOpen ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/50 dark:text-blue-400' : 'hover:bg-slate-200 dark:hover:bg-slate-800'}`}>
                         <History size={16} />
                       </button>
@@ -751,7 +760,7 @@ export default function TrustCrew() {
                         </div>
                         <motion.div className="space-y-3" initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.1 } } }}>
                           {claims.map((c, i) => (
-                            <ClaimEntry key={i} claim={c} expanded={expandedClaim === i} onToggle={() => setExpandedClaim(expandedClaim === i ? null : i)} onHighlight={setActiveEvidence} />
+                            <ClaimEntry key={i} claim={c} expanded={expandedClaim === i} onToggle={() => setExpandedClaim(expandedClaim === i ? null : i)} onHighlight={(evidence) => { setActiveEvidence(evidence); setIsSourceVisible(true); }} />
                           ))}
                         </motion.div>
                       </div>
