@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  serverExternalPackages: ['sharp', 'onnxruntime-node', 'pdfjs-dist'],
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
