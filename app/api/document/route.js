@@ -10,10 +10,22 @@ export async function POST(req) {
     const { name, content } = await req.json();
     if (!name || !content) return Response.json({ error: 'Missing name or content' }, { status: 400 });
 
-    // Ensure user exists in Prisma DB
-    const user = await prisma.user.findUnique({ where: { id: userId } });
+    // Ensure user exists in Prisma DB (Self-heal if webhook failed)
+    let user = await prisma.user.findUnique({ where: { id: userId } });
     if (!user) {
-      return Response.json({ error: 'User not found in DB. Run a verification first to sync account.' }, { status: 400 });
+      const { currentUser } = await import('@clerk/nextjs/server');
+      const clerkUser = await currentUser();
+      if (clerkUser) {
+        user = await prisma.user.create({
+          data: {
+            id: userId,
+            email: clerkUser.emailAddresses[0]?.emailAddress || 'no-email@ruju.ai',
+            name: `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim() || 'User',
+          }
+        });
+      } else {
+        return Response.json({ error: 'User not found in Clerk.' }, { status: 400 });
+      }
     }
 
     // 1. Create Document record

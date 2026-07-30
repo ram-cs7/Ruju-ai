@@ -23,6 +23,22 @@ export async function POST(request) {
     return Response.json({ error: { message: 'Unauthorized. Please log in.' } }, { status: 401 });
   }
 
+  // Ensure user exists in Prisma DB (Self-heal if webhook failed)
+  let user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user) {
+    const { currentUser } = await import('@clerk/nextjs/server');
+    const clerkUser = await currentUser();
+    if (clerkUser) {
+      user = await prisma.user.create({
+        data: {
+          id: userId,
+          email: clerkUser.emailAddresses[0]?.emailAddress || 'no-email@ruju.ai',
+          name: `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim() || 'User',
+        }
+      });
+    }
+  }
+
   // 2. Rate Limiting via Upstash Redis
   const rateLimitKey = `rate_limit:${userId}`;
   const currentRequests = await redis.incr(rateLimitKey);
