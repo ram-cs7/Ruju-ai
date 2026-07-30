@@ -1,0 +1,43 @@
+{
+  "name": "trustcrew-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@ai-sdk/groq": "^4.0.15",
+    "@clerk/nextjs": "^7.6.3",
+    "@prisma/adapter-pg": "^7.9.1",
+    "@prisma/client": "^7.9.1",
+    "@upstash/redis": "^1.38.0",
+    "@xenova/transformers": "^2.17.2",
+    "ai": "^7.0.40",
+    "buffer": "^6.0.3",
+    "cheerio": "^1.2.0",
+    "dotenv": "^17.4.2",
+    "framer-motion": "^12.43.0",
+    "lucide-react": "^1.26.0",
+    "mammoth": "^1.12.0",
+    "next": "16.2.11",
+    "pdfjs-dist": "^3.11.174",
+    "pg": "^8.22.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-markdown": "^10.1.0",
+    "resend": "^6.18.1",
+    "stripe": "^22.3.2",
+    "svix": "^1.99.1",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.11",
+    "prisma": "^7.9.1",
+    "tailwindcss": "^4"
+  }
+}
