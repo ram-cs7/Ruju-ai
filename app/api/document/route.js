@@ -20,7 +20,6 @@ export async function POST(req) {
           data: {
             id: userId,
             email: clerkUser.emailAddresses[0]?.emailAddress || 'no-email@ruju.ai',
-            name: `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim() || 'User',
           }
         });
       } else {
