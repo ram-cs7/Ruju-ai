@@ -506,7 +506,7 @@ export default function TrustCrew() {
                           <BookOpen size={14} /> {isSourceVisible ? 'Hide Source' : 'View Source'}
                         </button>
                       )}
-                      <button onClick={() => setIsHistoryOpen(!isHistoryOpen)} className={`p-2 rounded-full transition-colors hidden lg:block ${isHistoryOpen ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/50 dark:text-blue-400' : 'hover:bg-slate-200 dark:hover:bg-slate-800'}`}>
+                      <button onClick={() => setIsHistoryOpen(!isHistoryOpen)} className={`p-2 rounded-full transition-colors ${isHistoryOpen ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/50 dark:text-blue-400' : 'hover:bg-slate-200 dark:hover:bg-slate-800'}`}>
                         <History size={16} />
                       </button>
                       {isLoaded && !isSignedIn && (
@@ -523,11 +523,11 @@ export default function TrustCrew() {
                         <>
                           <a
                             href="/settings#/subscription"
-                            className="flex items-center justify-center gap-1.5 px-4 h-9 rounded-full border border-amber-300 dark:border-amber-700/50 bg-amber-50 dark:bg-amber-900/20 hover:bg-amber-100 dark:hover:bg-amber-900/40 text-amber-800 dark:text-amber-500 transition-all shadow-sm font-display small-caps font-bold tracking-widest text-[11px] leading-none pt-0.5"
+                            className="hidden sm:flex items-center justify-center gap-1.5 px-4 h-9 rounded-full border border-amber-300 dark:border-amber-700/50 bg-amber-50 dark:bg-amber-900/20 hover:bg-amber-100 dark:hover:bg-amber-900/40 text-amber-800 dark:text-amber-500 transition-all shadow-sm font-display small-caps font-bold tracking-widest text-[11px] leading-none pt-0.5"
                           >
                             <Sparkles size={14} /> Upgrade to Pro
                           </a>
-                          <div className="h-9 flex items-center border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-lg shadow-sm overflow-hidden px-2 py-1">
+                          <div className="hidden sm:flex h-9 items-center border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-lg shadow-sm overflow-hidden px-2 py-1">
                             <OrganizationSwitcher hidePersonal={false} />
                           </div>
                           <div className="relative w-8 h-8 rounded-md border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 shadow-sm flex items-center justify-center text-base overflow-hidden hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
